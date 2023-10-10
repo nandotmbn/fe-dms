@@ -1,0 +1,17 @@
+image: node:18.12.0
+
+before_script:
+  - node -v
+
+stages:          # List of stages for jobs, and their order of execution
+  - build
+
+build-job:       # This job runs in the build stage, which runs first.
+  stage: build
+  script:
+    - echo "Installing dependencies..."
+    - yarn install --ignore-engines --ignore-platform
+    - echo "Install complete."
+    - echo "Compiling the code..."
+    - npm run build
+    - echo "Compile complete."
