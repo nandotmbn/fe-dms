@@ -1,9 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 
-import {
-	SuperAdminService, SupervisorService,
-} from "@/services";
+import { MainService } from "@/services";
 import { ROLES_TYPE } from "@/static";
 import { EyeFilled, LoadingOutlined } from "@ant-design/icons";
 import { useQuery } from "@tanstack/react-query";
@@ -63,11 +61,9 @@ const columnsSmall = (currentPath: string) => {
 
 function TableUsersList({
 	add = false,
-	roleAs = "",
 	roleParams = "",
 }: {
 	add?: boolean;
-	roleAs: ROLES_TYPE;
 	roleParams?: ROLES_TYPE;
 }) {
 	const searchParams = useSearchParams();
@@ -85,12 +81,7 @@ function TableUsersList({
 				name,
 				role: roleParams != "" ? roleParams : role,
 			};
-
-			if (roleAs == "SUPERINTENDENT")
-				return SuperAdminService.Users.getAll(queryParams);
-			else if (roleAs == "SUPERVISOR")
-				return SupervisorService.Users.getAll(queryParams);
-			// else if (roleAs == "STAFF") return StaffService.Users.getAll(queryParams);
+			return MainService.Users.getAll(queryParams);
 		},
 		{
 			enabled: false,

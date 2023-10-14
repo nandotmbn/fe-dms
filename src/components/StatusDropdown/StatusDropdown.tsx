@@ -40,27 +40,11 @@ function StatusDropdown({
 		},
 		{
 			onClick: () => {
-				onChange("REVIEWED");
-				setRole("REVIEWED");
-			},
-			label: "REVIEWED",
-			key: "2",
-		},
-		{
-			onClick: () => {
 				onChange("REVISION");
 				setRole("REVISION");
 			},
 			label: "REVISION",
 			key: "3",
-		},
-		{
-			onClick: () => {
-				onChange("REUPLOAD");
-				setRole("REUPLOAD");
-			},
-			label: "REUPLOAD",
-			key: "4",
 		},
 		{
 			onClick: () => {
@@ -76,7 +60,7 @@ function StatusDropdown({
 		<Dropdown menu={{ items }}>
 			<a onClick={(e) => e.preventDefault()}>
 				<Space className="w-full py-2 border-2 rounded-lg text-xs px-2 flex flex-row items-center justify-between bg-white">
-					{!role ? "Pilih Roles" : role}
+					{!role ? "Pilih Status" : role}
 					<DownOutlined />
 				</Space>
 			</a>

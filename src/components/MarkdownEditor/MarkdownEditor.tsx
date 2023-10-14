@@ -7,7 +7,7 @@ import dynamic from "next/dynamic";
 import React from "react";
 import { IMAGE_URL, URL_ENDPOINT } from "@/static";
 import { message } from "antd";
-import { SuperAdminService } from "@/services";
+import { MainService } from "@/services";
 
 const MDEditor: any = dynamic(() => import("@uiw/react-md-editor"), {
 	ssr: false,
@@ -94,7 +94,7 @@ function MarkdownEditor({ configs }: IMarkdownEditor) {
 											if (!isLt3M) {
 												return message.error("Image must smaller than 3MB!");
 											}
-											return SuperAdminService.CDN.imageUpload(file).then(
+											return MainService.CDN.imageUpload(file).then(
 												(res) => {
 													api.replaceSelection(
 														`![](${URL_ENDPOINT + IMAGE_URL}${

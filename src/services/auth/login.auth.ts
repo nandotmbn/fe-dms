@@ -10,7 +10,7 @@ interface ILogin {
 
 async function login(user: ILogin) {
 	const { data } = await serviceInstance(user.isNotify).post(
-		"/v4/auth/signin",
+		"/v1/auth/signin",
 		user.data,
 	);
 	return data;

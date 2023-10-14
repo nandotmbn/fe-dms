@@ -1,10 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 
-import {
-	StaffService,
-	SuperAdminService, SupervisorService,
-} from "@/services";
+import { AuthService, MainService } from "@/services";
 import { ROLES_TYPE, STATUS_TYPE } from "@/static";
 import { EyeFilled, LoadingOutlined } from "@ant-design/icons";
 import { useQuery } from "@tanstack/react-query";
@@ -13,6 +10,7 @@ import Link from "next/link";
 import { usePathname, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import RolesDropdown from "../RolesDropdown/RolesDropdown";
+import StatusDropdown from "../StatusDropdown/StatusDropdown";
 
 const columns = (currentPath: string) => {
 	return [
@@ -69,35 +67,35 @@ const columnsSmall = (currentPath: string) => {
 
 function TableDocumentsList({
 	add = false,
-	roleAs = "",
 	statusType = "",
 }: {
 	add?: boolean;
-	roleAs: ROLES_TYPE;
 	statusType?: STATUS_TYPE;
 }) {
 	const searchParams = useSearchParams();
 	const pathname = usePathname();
 	const [title, setTitle] = useState<string>("");
-	const [role, setRole] = useState<ROLES_TYPE>("");
+	const [role, setRole] = useState<STATUS_TYPE>("");
 
 	const users = useQuery(
 		["documents"],
-		() => {
+		async () => {
+			const { data } = await AuthService.me({ isNotify: false });
+			const myRole = data?.roles?.name;
+
+			const filterMe = myRole == "STAFF" ? { userId: data?._id } : {};
+
 			const queryParams = {
 				isArchived: searchParams.get("isArchived") == "true" ? true : false,
 				limit: 10000000,
 				page: 1,
 				title,
-				status: statusType,
-				isNotify: true
+				status: role,
+				isNotify: false,
+				...filterMe,
 			};
 
-			if (roleAs == "SUPERINTENDENT")
-				return SuperAdminService.Documents.getAll(queryParams);
-			else if (roleAs == "SUPERVISOR")
-				return SupervisorService.Documents.getAll(queryParams);
-			else if (roleAs == "STAFF") return StaffService.Documents.getAll(queryParams);
+			return MainService.Documents.getAll(queryParams);
 		},
 		{
 			enabled: false,
@@ -123,7 +121,7 @@ function TableDocumentsList({
 				</div>
 				{statusType == "" && (
 					<div className="flex flex-row justify-end gap-4 flex-1">
-						<RolesDropdown onChange={({ _id, name }) => setRole(name)} />
+						<StatusDropdown onChange={(name) => setRole(name)} />
 					</div>
 				)}
 			</div>

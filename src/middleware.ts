@@ -7,28 +7,29 @@ export function middleware(request: NextRequest) {
 	// if (pathname.startsWith(`/cdn/`)) {
 	// 	return NextResponse.next();
 	// }
-
-	if (pathname == `/supervisor`) {
+	if (pathname == `/super`) {
 		return NextResponse.redirect(
-			new URL(`/supervisor/users/list/`, request.url)
+			new URL(`/super/users/list/`, request.url)
 		);
 	}
-	if (pathname == `/supervisor/users`) {
+	if (pathname == `/super/users`) {
 		return NextResponse.redirect(
-			new URL(`/supervisor/users/list/`, request.url)
+			new URL(`/super/users/list/`, request.url)
 		);
 	}
-	if (pathname == `/supervisor/documents`) {
+	if (pathname == `/super/documents`) {
 		return NextResponse.redirect(
-			new URL(`/supervisor/documents/pending/`, request.url)
+			new URL(`/super/documents/pending/`, request.url)
 		);
 	}
 	if (pathname == `/staff`) {
-		return NextResponse.redirect(new URL(`/staff/documents/pending/`, request.url));
+		return NextResponse.redirect(
+			new URL(`/staff/documents/list/`, request.url)
+		);
 	}
 	if (pathname == `/staff/documents`) {
 		return NextResponse.redirect(
-			new URL(`/staff/documents/pending/`, request.url)
+			new URL(`/staff/documents/list/`, request.url)
 		);
 	}
 

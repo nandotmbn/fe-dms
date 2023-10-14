@@ -16,7 +16,7 @@ function GridViewDocsList({ documents }: IGridViewDocsList) {
 						<p>Nama dokumen: {doc.title}</p>
 						<p>Author: {doc.author.fullName}</p>
 						<div className="flex flex-row items-end justify-end">
-							<Link href={`/document-view?documentId=${doc.fileName}`}>
+							<Link href={`/document-view?documentId=${doc._id}`}>
 								<button className="px-4 py-1 bg-black text-white rounded-xl dark:bg-white dark:text-black">
 									Lihat
 								</button>

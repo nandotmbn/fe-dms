@@ -1,69 +1,58 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 
-import { PublicService, StaffService } from "@/services";
-import { message } from "antd";
-import dynamic from "next/dynamic";
+import { MainService } from "@/services";
+import { Input, message } from "antd";
 import { useRouter, useSearchParams } from "next/navigation";
-import React, { useEffect, useState } from "react";
-const PDFViewer = dynamic(() => import("./PDFViewer"), { ssr: false });
+import { useEffect, useState } from "react";
+import MarkdownEditor from "../MarkdownEditor/MarkdownEditor";
+import { useQuery } from "@tanstack/react-query";
+import { LoadingOutlined } from "@ant-design/icons";
+// const PDFViewer = dynamic(() => import("./PDFViewer"), { ssr: false });
 
 function DocumentView({
 	children,
 	withController = true,
 	withReuploader = false,
-	fileName,
-	title,
-	status,
-	updater
+	updater,
 }: {
 	children?: any;
 	withController?: boolean;
 	withReuploader?: boolean;
-	status?: string;
 	updater: () => void;
-	title?: string;
-	fileName?: string;
 }) {
 	const [show, setShow] = useState(true);
-	const router = useRouter();
+	const [docs, setDocs] = useState({
+		title: "",
+		content: "",
+		status: "",
+	});
 	const searchParams = useSearchParams();
-	const [uploading, setUploading] = useState(false);
 
-	const handleSubmit = async (fileName: string) => {
-		StaffService.Documents.update({
+	const documents = useQuery(["documentById"], () =>
+		MainService.Documents.getById({
+			isNotify: false,
+			documentId: searchParams.get("documentId")!,
+		}).then((res) => {
+			if (!res) return null;
+			setDocs(res.data);
+			return res;
+		})
+	);
+
+	const handleSubmit = async () => {
+		MainService.Documents.update({
 			isNotify: true,
 			document: {
-				title: title?.toString()!,
+				title: docs?.title?.toString()!,
 				isArchived: false,
-				status: status?.toString()!,
-				fileName,
+				content: docs.content!,
+				status: docs?.status?.toString()!,
 			},
 			documentId: searchParams.get("documentId")!,
 		}).then((res) => {
-			updater()
+			updater();
 		});
-	};
-
-	const handleUploadImage = async (imageName: string) => {
-		var input = document.createElement("input");
-		input.setAttribute("type", "file");
-
-		input.onchange = async (e: any) => {
-			setUploading(true);
-			var file = e.target.files[0];
-			const isLt10M = file.size / 1024 / 1024 < 10;
-			if (!isLt10M) {
-				setUploading(false);
-				return message.error("File must smaller than 10MB!");
-			}
-			PublicService.CDN.documentUpload(file).then((res) => {
-				setUploading(false);
-				handleSubmit(res?.data?.uploadName);
-			});
-		};
-
-		input.click();
 	};
 
 	useEffect(() => {
@@ -110,6 +99,10 @@ function DocumentView({
 		});
 	}, []);
 
+	if (documents.isLoading) {
+		return <LoadingOutlined />;
+	}
+
 	return (
 		<div id="pdf-wrapper" className={show ? "" : "blur-xl"}>
 			{!withController && (
@@ -119,18 +112,49 @@ function DocumentView({
 			)}
 			{withReuploader && (
 				<button
-					onClick={() => handleUploadImage("oke")}
+					onClick={() => handleSubmit()}
 					className="bg-blue-500 text-white rounded-xl px-4 py-1 mb-4"
 				>
 					Revisi Dokumen
 				</button>
 			)}
 
-			<PDFViewer
+			<div className="w-full py-1 mt-8">
+				<label htmlFor="title">Judul</label>
+				<Input
+					id="title"
+					name="title"
+					defaultValue={documents?.data?.data?.title}
+					onChange={(e) =>
+						setDocs({
+							...docs,
+							title: e.target.value,
+						})
+					}
+				/>
+			</div>
+
+			<MarkdownEditor
+				configs={[
+					{
+						langLabel: "Isi dokumen",
+						value: docs?.content!,
+						defaultValue: documents?.data?.data?.content!,
+						onValueChange(value) {
+							setDocs({
+								...docs,
+								content: value,
+							});
+						},
+					},
+				]}
+			/>
+
+			{/* <PDFViewer
 				documentName={fileName?.toString()!}
 				key={1}
 				withController={withController}
-			/>
+			/> */}
 		</div>
 	);
 }

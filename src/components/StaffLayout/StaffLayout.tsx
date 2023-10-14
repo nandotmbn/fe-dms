@@ -7,7 +7,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import NavbarAdmin from "./Admin/NavbarAdmin";
+import NavbarAdmin from "./Staff/NavbarAdmin";
 import Header from "./partials/Header";
 
 const { Content, Sider } = Layout;

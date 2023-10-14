@@ -30,7 +30,9 @@ function Header() {
 		);
 	}
 
-	if (myProfile?.data?.data?.roles?.name != "SUPERVISOR") {
+	const role = myProfile?.data?.data?.roles?.name;
+
+	if (role == "STAFF") {
 		navigation.push("/auth/signin");
 	}
 

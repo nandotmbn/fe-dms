@@ -6,7 +6,7 @@ import { Layout } from "antd";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import React, { useEffect, useLayoutEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import NavbarAdmin from "./Admin/NavbarAdmin";
 import Header from "./partials/Header";
 
@@ -16,7 +16,7 @@ interface IMainLayout {
 	children: JSX.Element;
 }
 
-function AdminLayout({ children }: IMainLayout) {
+function SuperLayout({ children }: IMainLayout) {
 	const [collapsed, setCollapsed] = useState(false);
 	const navigation = useRouter();
 
@@ -77,4 +77,4 @@ function AdminLayout({ children }: IMainLayout) {
 	);
 }
 
-export default AdminLayout;
+export default SuperLayout;

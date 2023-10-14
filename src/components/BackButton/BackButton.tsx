@@ -4,10 +4,10 @@ import { useRouter } from "next/navigation";
 import React from "react";
 
 interface IBackButton {
-	className: string;
+	className?: string;
 }
 
-function BackButton({ className }: IBackButton) {
+function BackButton({ className="" }: IBackButton) {
 	const router = useRouter();
 	return (
 		<button onClick={() => router.back()}>

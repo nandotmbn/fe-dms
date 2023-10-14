@@ -5,7 +5,7 @@ interface IReq {
 }
 
 async function getMasterData({ isNotify }: IReq) {
-	const { data } = await serviceInstance(isNotify).get(`/v4/master`);
+	const { data } = await serviceInstance(isNotify).get(`/v1/master`);
 	return data;
 }
 

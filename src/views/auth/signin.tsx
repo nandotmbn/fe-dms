@@ -45,16 +45,22 @@ function SigninView() {
 	};
 	const handleRedirectLoggedIn = async () => {
 		if (cookiesHandler.getCookie("access_token")) {
-			const { data } = await AuthService.me({ isNotify: false });
+			const {data} = await AuthService.me({ isNotify: true });
 
-			const roles: ROLES_TYPE = data.roles.name as ROLES_TYPE;
+			if (!data) {
+				cookiesHandler.deleteCookie("access_token");
+
+				return router.refresh();
+			}
+
+			const roles: ROLES_TYPE = data?.roles?.name as ROLES_TYPE;
 
 			switch (roles) {
 				case "SUPERINTENDENT":
-					router.replace("/superintendent");
+					router.replace("/super");
 					break;
 				case "SUPERVISOR":
-					router.replace("/supervisor");
+					router.replace("/super");
 					break;
 				case "STAFF":
 					router.replace("/staff");
@@ -69,6 +75,7 @@ function SigninView() {
 	useEffect(() => {
 		handleRedirectLoggedIn();
 	}, [refresher, refresherOrb]);
+
 	return (
 		<div className="w-screen h-screen flex flex-col items-center justify-center">
 			<Image

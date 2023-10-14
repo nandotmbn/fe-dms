@@ -2,8 +2,6 @@
 
 import {
 	DownOutlined,
-	FileMarkdownOutlined,
-	FlagOutlined,
 	ReconciliationOutlined,
 	RightOutlined,
 	UnorderedListOutlined,
@@ -31,6 +29,8 @@ function NavbarAdmin({ collapsed }: INavbarAdmin) {
 		return "";
 	};
 
+	const route = "super";
+
 	return (
 		<Collapse
 			expandIcon={({ isActive }) =>
@@ -56,7 +56,7 @@ function NavbarAdmin({ collapsed }: INavbarAdmin) {
 				}
 				key="1"
 			>
-				<Link href="/supervisor/users/list">
+				<Link href={"/" + route + "/users/list"}>
 					<div
 						className={`text-white flex flex-row items-center justify-start mb-1 hover:bg-gray-400 rounded-full px-1 hover:text-white ${
 							collapsed && "my-2 justify-center"
@@ -83,58 +83,16 @@ function NavbarAdmin({ collapsed }: INavbarAdmin) {
 				}
 				key="2"
 			>
-				<Link href="/supervisor/documents/pending">
+				<Link href={"/" + route + "/documents/list"}>
 					<div
 						className={`text-white flex flex-row items-center justify-start mb-1 hover:bg-gray-400 rounded-full px-1 hover:text-white ${
 							collapsed && "my-2 justify-center"
-						} ${defineActivePage("documents", "pending")}`}
+						} ${defineActivePage("documents", "list")}`}
 					>
 						<UnorderedListOutlined
 							className={!collapsed ? "text-sm" : "text-xl"}
 						/>
-						{!collapsed && <p className="text-xs ml-1">Pending</p>}
-					</div>
-				</Link>
-				<Link href="/supervisor/documents/reviewed">
-					<div
-						className={`text-white flex flex-row items-center justify-start mb-1 hover:bg-gray-400 rounded-full px-1 hover:text-white ${
-							collapsed && "my-2 justify-center"
-						} ${defineActivePage("documents", "reviewed")}`}
-					>
-						<FileMarkdownOutlined
-							className={!collapsed ? "text-sm" : "text-xl"}
-						/>
-						{!collapsed && <p className="text-xs ml-1">Reviewed</p>}
-					</div>
-				</Link>
-				<Link href="/supervisor/documents/revisions">
-					<div
-						className={`text-white flex flex-row items-center justify-start mb-1 hover:bg-gray-400 rounded-full px-1 hover:text-white ${
-							collapsed && "my-2 justify-center"
-						} ${defineActivePage("documents", "revisions")}`}
-					>
-						<FlagOutlined className={!collapsed ? "text-sm" : "text-xl"} />
-						{!collapsed && <p className="text-xs ml-1">Revisi</p>}
-					</div>
-				</Link>
-				<Link href="/supervisor/documents/reupload">
-					<div
-						className={`text-white flex flex-row items-center justify-start mb-1 hover:bg-gray-400 rounded-full px-1 hover:text-white ${
-							collapsed && "my-2 justify-center"
-						} ${defineActivePage("documents", "reupload")}`}
-					>
-						<FlagOutlined className={!collapsed ? "text-sm" : "text-xl"} />
-						{!collapsed && <p className="text-xs ml-1">Upload Ulang</p>}
-					</div>
-				</Link>
-				<Link href="/supervisor/documents/approved">
-					<div
-						className={`text-white flex flex-row items-center justify-start mb-1 hover:bg-gray-400 rounded-full px-1 hover:text-white ${
-							collapsed && "my-2 justify-center"
-						} ${defineActivePage("documents", "approved")}`}
-					>
-						<FlagOutlined className={!collapsed ? "text-sm" : "text-xl"} />
-						{!collapsed && <p className="text-xs ml-1">Diterima</p>}
+						{!collapsed && <p className="text-xs ml-1">Daftar Dokumen</p>}
 					</div>
 				</Link>
 			</Panel>
