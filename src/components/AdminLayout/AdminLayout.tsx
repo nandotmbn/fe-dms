@@ -28,6 +28,11 @@ function SuperLayout({ children }: IMainLayout) {
 		}
 	}, []);
 
+	useEffect(() => {
+		if(window == undefined) return
+		setCollapsed(window.screen.width < 768)
+	}, [])
+
 	return (
 		<Layout hasSider>
 			<Sider

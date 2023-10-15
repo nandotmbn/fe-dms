@@ -31,7 +31,7 @@ function MainLayout({ children }: { children: React.ReactNode }) {
 							height={140}
 						/>
 					</div>
-					<DrawerMenu />
+					<DrawerMenu myProfile={myProfile} />
 
 					<div className="flex-row gap-8 items-center hidden md:flex">
 						<ul className="flex flex-row gap-4">

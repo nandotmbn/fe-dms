@@ -56,7 +56,7 @@ const columnsSmall = (currentPath: string) => {
 			key: "3",
 			render: ({ _id }: { _id: string }) => (
 				<div className="flex flex-row items-center gap-1">
-					<Link href={`${currentPath}/view?docId=${_id}`}>
+					<Link href={`${currentPath}/view?documentId=${_id}`}>
 						<EyeFilled className="text-white bg-blue-500 p-2 rounded" />
 					</Link>
 				</div>

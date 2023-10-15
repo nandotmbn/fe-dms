@@ -7,7 +7,7 @@ import { usePathname } from "next/navigation";
 import { useState } from "react";
 import ModeSwitcher from "./ModeSwitcher";
 
-function DrawerMenu() {
+function DrawerMenu({ myProfile }: any) {
 	const pathname = usePathname();
 	const locale = pathname.split("/")[1];
 	const [open, setOpen] = useState(false);
@@ -35,9 +35,17 @@ function DrawerMenu() {
 				<div className="flex flex-col gap-8 items-end">
 					<ul className="flex flex-col gap-4 dark:invert">
 						<li>
-							<Link href={"/auth/signin"}>
+							<Link
+								href={
+									!myProfile?.data?.data?.fullName
+										? "/auth/signin"
+										: myProfile?.data?.data?.roles?.name == "STAFF"
+										? "/staff"
+										: "/super"
+								}
+							>
 								<p className="text-sm text-gray-600 text-right hover:text-black hover:dark:text-white dark:invert">
-									Login
+									{myProfile?.data?.data?.fullName || "Login"}
 								</p>
 							</Link>
 						</li>
