@@ -18,7 +18,7 @@ export async function generateMetadata(
 
 	return {
 		title: `${document.data.title} - Document Management System`,
-		description: `Written by:  + ${document.data.author.fullName}`,
+		description: `Written by: ${document.data.author.fullName}`,
 		authors: [
 			{
 				name: "Orlando Pratama Tambunan",
