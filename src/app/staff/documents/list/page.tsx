@@ -1,5 +1,5 @@
 import StaffLayout from "@/components/StaffLayout/StaffLayout";
-import SuperListDocuments from "@/views/staff/documents/SuperListDocuments";
+import SuperListDocuments from "@/views/super/documents/SuperListDocuments";
 import { Metadata, ResolvingMetadata } from "next";
 
 interface IPropsGenerateMetadata {

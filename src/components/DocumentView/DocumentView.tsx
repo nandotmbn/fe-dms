@@ -119,7 +119,7 @@ function DocumentView({
 				</button>
 			)}
 
-			<div className="w-full py-1 mt-8">
+			<div className="w-full py-1 mt-2">
 				<label htmlFor="title">Judul</label>
 				<Input
 					id="title"

@@ -1,9 +1,8 @@
 'use client'
 
 import GridViewDocsList from '@/components/GridViewDocsList/GridViewDocsList';
-import { PublicService, MainService } from '@/services';
+import { MainService } from '@/services';
 import { useQuery } from '@tanstack/react-query';
-import React from 'react';
 import Jumbotron from './partials/Jumbotron';
 
 function HomeViews() {

@@ -1,4 +1,4 @@
-const URL_ENDPOINT = "http://nandotmbn.local:8081"
+const URL_ENDPOINT = "https://be-dms.aquaculturepens.com"
 const IMAGE_URL = "/v4/cdn/download/images?imageName="
 const DOCUMENT_URL = "/v4/cdn/download/documents?documentName="
 

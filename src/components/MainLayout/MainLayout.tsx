@@ -1,14 +1,14 @@
 "use client";
 
+import { AuthService } from "@/services";
+import { useQuery } from "@tanstack/react-query";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import React, { useEffect } from "react";
+import React from "react";
 import DrawerMenu from "./partials/DrawerMenu";
 import FooterMainLayout from "./partials/Footer";
 import ModeSwitcher from "./partials/ModeSwitcher";
-import { AuthService, PublicService, MainService } from "@/services";
-import { useQuery } from "@tanstack/react-query";
 
 function MainLayout({ children }: { children: React.ReactNode }) {
 	const pathname = usePathname();
