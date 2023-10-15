@@ -36,7 +36,15 @@ function MainLayout({ children }: { children: React.ReactNode }) {
 					<div className="flex-row gap-8 items-center hidden md:flex">
 						<ul className="flex flex-row gap-4">
 							<li>
-								<Link href={"/auth/signin"}>
+								<Link
+									href={
+										!myProfile?.data?.data?.fullName
+											? "/auth/signin"
+											: myProfile?.data?.data?.roles?.name == "STAFF"
+											? "/staff"
+											: "/super"
+									}
+								>
 									<p className="text-sm text-blue-900 hover:text-blue-400 dark:text-blue-200 hover:dark:text-white">
 										{myProfile?.data?.data?.fullName || "Login"}
 									</p>
