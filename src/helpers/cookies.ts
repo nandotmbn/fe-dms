@@ -1,6 +1,6 @@
 const cookiesHandler = {
 	setCookie: (name: string, value: string, days: number) => {
-		if(!document) return null;
+		if(document == undefined) return null;
 		let expires = "";
 		if (days) {
 			const date = new Date();
@@ -11,7 +11,7 @@ const cookiesHandler = {
 	},
 
 	getCookie: (name: string) => {
-		if(!document) return null;
+		if(document == undefined) return null;
 		let nameEQ = name + "=";
 		const ca = document.cookie.split(";");
 		for (let i = 0; i < ca.length; i++) {
@@ -23,7 +23,7 @@ const cookiesHandler = {
 	},
 
 	deleteCookie: (name: string) => {
-		if(!document) return null;
+		if(document == undefined) return null;
 		document.cookie = name + "=; expires=Thu, 01 Jan 1970 00:00:01 GMT; path=/";
 	},
 };

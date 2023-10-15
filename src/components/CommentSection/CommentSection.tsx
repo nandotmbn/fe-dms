@@ -1,17 +1,17 @@
 import { MainService } from "@/services";
+import { STATUS_TYPE } from "@/static";
 import { LoadingOutlined } from "@ant-design/icons";
 import { useQuery } from "@tanstack/react-query";
 import { Input } from "antd";
-import { useSearchParams } from "next/navigation";
-import { useRouter } from "next/navigation";
-import React, { useState } from "react";
 import _ from "lodash";
-import { STATUS_TYPE } from "@/static";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useState } from "react";
 
 function CommentSection({ edited = true }: { edited?: boolean }) {
 	const searchParams = useSearchParams();
 	const router = useRouter();
 	const [newComment, setNewComment] = useState("");
+	const [status, setStatus] = useState("PENDING");
 
 	if (!searchParams.get("documentId")) router.back();
 
@@ -29,6 +29,11 @@ function CommentSection({ edited = true }: { edited?: boolean }) {
 		MainService.Documents.getById({
 			isNotify: false,
 			documentId: searchParams.get("documentId")!,
+		}).then((res) => {
+			// alert(res?.data?.status);
+			setStatus(res?.data?.status);
+
+			return res;
 		})
 	);
 
@@ -52,16 +57,15 @@ function CommentSection({ edited = true }: { edited?: boolean }) {
 			},
 			documentId: searchParams.get("documentId")!,
 			isNotify: true,
-		}).then(() => {
-			docs.refetch();
+		}).then((res) => {
+			if (!res) return;
+			setStatus(res.data.status);
 		});
 	};
 
 	if (comment.isLoading || docs.isLoading) {
 		return <LoadingOutlined />;
 	}
-
-	const status = docs.data.data.status;
 
 	return (
 		<div className="relative px-4 w-full">

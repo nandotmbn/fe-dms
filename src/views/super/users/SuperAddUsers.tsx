@@ -4,6 +4,7 @@ import BackButton from "@/components/BackButton/BackButton";
 import RolesDropdown from "@/components/RolesDropdown/RolesDropdown";
 import TokenChecker from "@/components/TokenChecker/TokenChecker";
 import { AuthService, MainService } from "@/services";
+import { LoadingOutlined } from "@ant-design/icons";
 import { useQuery } from "@tanstack/react-query";
 import { Breadcrumb, Input, message } from "antd";
 import Link from "next/link";
@@ -31,6 +32,7 @@ const init = {
 };
 
 function SuperAddUsers() {
+	const [isSubmiting, setSubmiting] = useState(false);
 	const myProfile = useQuery(["myProfile"], () =>
 		AuthService.me({ isNotify: false })
 	);
@@ -52,10 +54,20 @@ function SuperAddUsers() {
 			});
 		}
 
+		if (!user.rolesId) {
+			return message.info({
+				content: "Choose the role!",
+			});
+		}
+
+		setSubmiting(true);
+
 		let userWillCreated: any = user;
 		MainService.Users.register({
 			user: userWillCreated,
 			isNotify: true,
+		}).finally(() => {
+			setSubmiting(false);
 		});
 	};
 
@@ -136,7 +148,7 @@ function SuperAddUsers() {
 							onClick={handleAdd}
 							className="px-4 py-2 text-green-400 border-2 border-green-400 rounded-xl w-full hover:text-white hover:bg-green-400"
 						>
-							Daftarkan
+							{isSubmiting ? <LoadingOutlined /> : "Daftarkan"}
 						</button>
 					</div>
 				</div>

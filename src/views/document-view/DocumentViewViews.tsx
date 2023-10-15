@@ -68,56 +68,41 @@ function DocumentViewViews() {
 	}, []);
 
 	return (
-		<div id="pdf-wrapper" className={show ? "" : "blur-xl"}>
+		<div id="pdf-wrapper" className={show ? "bg-gray-300" : "blur-xl bg-gray-300"}>
 			<div className="relative">
 				<div className="fixed inset-0 z-50 bg-transparent"></div>
 			</div>
 			<div
-				className="prose max-w-full flex-3 pt-24 text-xs xl:text-base px-2"
+				className="prose max-w-full flex-3 text-xs xl:text-base px-2"
 				id="about"
 			>
-				<ReactMarkdown
-					components={{
-						code({ node, inline, className, children, ...props }: any) {
-							const match = /language-(\w+)/.exec(className || "");
-							return !inline && match ? (
-								<SyntaxHighlighter
-									{...props}
-									style={oneDark}
-									language={match[1]}
-									PreTag="div"
-									ref={ref as any}
-								>
-									{String(children).replace(/\n$/, "")}
-								</SyntaxHighlighter>
-							) : (
-								<code {...props} className={className}>
-									{children}
-								</code>
-							);
-						},
-						// img({ node, className, children, ...props }) {
-						// 	return (
-						// 		<Image
-						// 			className="contain relative w-full"
-						// 			src={props.src as string}
-						// 			alt="Thumbnail"
-						// 			width={720}
-						// 			height={720}
-						// 			priority
-						// 		/>
-						// 	);
-						// },
-					}}
-				>
-					{docs?.data?.data?.content!}
-				</ReactMarkdown>
+				<div className="m-auto w-full md:w-9/12 lg:6/12 bg-white px-8 py-24 shadow-xl">
+					<ReactMarkdown
+						components={{
+							code({ node, inline, className, children, ...props }: any) {
+								const match = /language-(\w+)/.exec(className || "");
+								return !inline && match ? (
+									<SyntaxHighlighter
+										{...props}
+										style={oneDark}
+										language={match[1]}
+										PreTag="div"
+										ref={ref as any}
+									>
+										{String(children).replace(/\n$/, "")}
+									</SyntaxHighlighter>
+								) : (
+									<code {...props} className={className}>
+										{children}
+									</code>
+								);
+							},
+						}}
+					>
+						{docs?.data?.data?.content!}
+					</ReactMarkdown>
+				</div>
 			</div>
-			{/* <DocumentView
-				updater={() => {}}
-				withController={false}
-				fileName={searchParams.get("documentId")!}
-			/> */}
 		</div>
 	);
 }

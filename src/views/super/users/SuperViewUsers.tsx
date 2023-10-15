@@ -40,6 +40,7 @@ function SuperViewUsers() {
 	const searchParams = useSearchParams();
 	const router = useRouter();
 	const userId = searchParams.get("userId")!;
+	const [isSubmiting, setSubmiting] = useState(false);
 	if (!userId) router.back();
 
 	const [user, _setUser] = useState(init);
@@ -69,6 +70,9 @@ function SuperViewUsers() {
 			"roles",
 		]);
 		const rolesId = (user as any).roles._id;
+
+		setSubmiting(true);
+
 		MainService.Users.update({
 			userId: searchParams.get("userId")?.toString()!,
 			user: {
@@ -76,6 +80,8 @@ function SuperViewUsers() {
 				rolesId,
 			},
 			isNotify: true,
+		}).finally(() => {
+			setSubmiting(false);
 		});
 
 		userById.refetch();
@@ -152,7 +158,7 @@ function SuperViewUsers() {
 							onClick={handleUpdate}
 							className="px-4 py-2 text-green-400 border-2 border-green-400 rounded-xl w-full hover:text-white hover:bg-green-400"
 						>
-							Simpan Perubahan
+							{isSubmiting ? <LoadingOutlined /> : "Simpan Perubahan"}
 						</button>
 					</div>
 				</div>

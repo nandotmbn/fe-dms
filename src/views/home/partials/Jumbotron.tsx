@@ -19,9 +19,9 @@ function Jumbotron() {
 					<div className="flex flex-col text-white flex-2 mt-24">
 						<h2>PT. Greenfields Indonesia</h2>
 						<p className="text-4xl font-semibold">Sistem Manajemen Dokumen</p>
-						<button className="mt-8 px-4 py-2 rounded-full bg-green-600 border-2 border-green-100">
+						<a href="#published" className="mt-8 px-4 py-2 rounded-full bg-green-600 border-2 border-green-100">
 							Lihat Dokumen Terpublikasi
-						</button>
+						</a>
 					</div>
 					<div className="flex flex-col text-white flex-3 items-center">
 						<div className="flex flex-col gap-4 mt-4 md:mt-16">
