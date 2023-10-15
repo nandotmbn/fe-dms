@@ -29,29 +29,39 @@ function DocumentView({
 	});
 	const searchParams = useSearchParams();
 
-	const documents = useQuery(["documentById"], () =>
-		MainService.Documents.getById({
-			isNotify: false,
-			documentId: searchParams.get("documentId")!,
-		}).then((res) => {
-			if (!res) return null;
-			setDocs(res.data);
-			return res;
-		})
+	const documents = useQuery(
+		["documentById"],
+		() =>
+			MainService.Documents.getById({
+				isNotify: false,
+				documentId: searchParams.get("documentId")!,
+			}).then((res) => {
+				if (!res) return null;
+				setDocs(res.data);
+				return res;
+			}),
+		{
+			enabled: false,
+		}
 	);
 
-	const handleSubmit = async () => {
+	useEffect(() => {
+		documents.refetch();
+	}, []);
+
+	const handleSubmit = async (isArchived = false) => {
 		MainService.Documents.update({
 			isNotify: true,
 			document: {
 				title: docs?.title?.toString()!,
-				isArchived: false,
+				isArchived,
 				content: docs.content!,
 				status: docs?.status?.toString()!,
 			},
 			documentId: searchParams.get("documentId")!,
 		}).then((res) => {
 			updater();
+			documents.refetch();
 		});
 	};
 
@@ -111,12 +121,29 @@ function DocumentView({
 				</div>
 			)}
 			{withReuploader && (
-				<button
-					onClick={() => handleSubmit()}
-					className="bg-blue-500 text-white rounded-xl px-4 py-1 mb-4"
-				>
-					Revisi Dokumen
-				</button>
+				<div>
+					<button
+						onClick={() => handleSubmit()}
+						className="bg-blue-500 text-white rounded-xl px-4 py-1 mb-4"
+					>
+						Revisi Dokumen
+					</button>
+					{documents?.data?.data?.isArchived ? (
+						<button
+							onClick={() => handleSubmit(false)}
+							className="bg-red-500 text-white rounded-xl px-4 py-1 mb-4"
+						>
+							Pulihkan Dokumen
+						</button>
+					) : (
+						<button
+							onClick={() => handleSubmit(true)}
+							className="bg-red-500 text-white rounded-xl px-4 py-1 mb-4"
+						>
+							Arsipkan Dokumen
+						</button>
+					)}
+				</div>
 			)}
 
 			<div className="w-full py-1 mt-2">
@@ -124,7 +151,7 @@ function DocumentView({
 				<Input
 					id="title"
 					name="title"
-					defaultValue={documents?.data?.data?.title}
+					value={docs?.title}
 					onChange={(e) =>
 						setDocs({
 							...docs,

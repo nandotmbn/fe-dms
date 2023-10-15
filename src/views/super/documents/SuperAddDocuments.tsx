@@ -4,6 +4,7 @@ import BackButton from "@/components/BackButton/BackButton";
 import MarkdownEditor from "@/components/MarkdownEditor/MarkdownEditor";
 import TokenChecker from "@/components/TokenChecker/TokenChecker";
 import { MainService } from "@/services";
+import { LoadingOutlined } from "@ant-design/icons";
 import { Breadcrumb, Input } from "antd";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -23,6 +24,7 @@ const items = [
 
 function SuperAddDocuments() {
 	const router = useRouter();
+	const [isSubmitting, setSubmitting] = useState(false);
 	const [docs, _setDocs] = useState({
 		title: "",
 		content: "",
@@ -36,14 +38,19 @@ function SuperAddDocuments() {
 	};
 
 	const handleSubmit = async () => {
+		setSubmitting(true);
 		MainService.Documents.create({
 			isNotify: true,
 			document: docs,
-		}).then((res) => {
-			if (res) {
-				router.back();
-			}
-		});
+		})
+			.then((res) => {
+				if (res) {
+					router.back();
+				}
+			})
+			.finally(() => {
+				setSubmitting(false);
+			});
 	};
 
 	return (
@@ -54,7 +61,7 @@ function SuperAddDocuments() {
 			</div>
 			<h2 className="text-lg md:text-2xl text-center mt-6">Tambah Dokumen</h2>
 			<div className="flex flex-col">
-				<div className="w-full flex flex-col items-center m-auto md:full">
+				<div className="w-full flex flex-col items-center m-auto md:w-full">
 					<div className="w-full py-1 mt-8">
 						<label htmlFor="title">Judul</label>
 						<Input
@@ -76,8 +83,12 @@ function SuperAddDocuments() {
 							]}
 						/>
 					</div>
-					<button onClick={handleSubmit} className="w-full text-center py-2 rounded-xl bg-green-400 text-white">
-						Tambahkan
+					<button
+						disabled={isSubmitting}
+						onClick={handleSubmit}
+						className="w-full text-center py-2 rounded-xl bg-green-400 text-white mb-44"
+					>
+						{isSubmitting ? <LoadingOutlined /> : "Tambahkan"}
 					</button>
 				</div>
 			</div>

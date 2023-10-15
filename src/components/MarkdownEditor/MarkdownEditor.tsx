@@ -23,11 +23,11 @@ function MarkdownEditor({ configs }: IMarkdownEditor) {
 		<div className="h-screen">
 			{configs.map((config, index: number) => {
 				return (
-					<div key={index} className="mb-44">
+					<div key={index}>
 						<h4 className="text-xl font-semibold">{config.langLabel}</h4>
 						<MDEditor
 							value={config.value ? config.value : config.defaultValue}
-							height={800}
+							height={500}
 							onChange={config.onValueChange}
 							commands={[
 								commands.bold,
